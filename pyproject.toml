@@ -9,7 +9,14 @@ classifiers = [
   'Programming Language :: Python :: 3 :: Only',
 ]
 requires-python = '==3.10.*'
-dependencies = []
+dependencies = [
+  'bpy==4.0.0',
+  'google-auth==2.34.0',
+  'pandas>=2.0.0',
+  'protobuf>=5.0.0',
+  'pyasn1_modules>=0.2.1',
+  'six>=1.9.0',
+]
 
 [project.optional-dependencies]
 dev = [

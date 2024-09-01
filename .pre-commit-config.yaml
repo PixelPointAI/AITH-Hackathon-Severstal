@@ -106,4 +106,4 @@ repos:
     hooks:
       - id: pylint
         language: system
-        args: [-rn, -sn]
+        args: [-rn, -sn, --disable=import-error]
