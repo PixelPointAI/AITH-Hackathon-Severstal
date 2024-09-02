@@ -1,6 +1,9 @@
 #!/bin/bash
 
-blender-3.6.0-linux-x64/blender \
---background \
---python \
-tools/render.py -- path/to/object.obj save_dir 5.0 20.0
+render-cli \
+--blender-path blender-3.6.0-linux-x64/blender \
+--object-path path/to/object.obj \
+--output-dir save_dir \
+--distance-between-cameras 5.0 \
+--distance-from-object 15.0 \
+--num-pairs 10

@@ -9,6 +9,7 @@ classifiers = [
   'Programming Language :: Python :: 3 :: Only',
 ]
 requires-python = '==3.10.*'
+
 dependencies = [
   'bpy==4.0.0',
   'google-auth==2.34.0',
@@ -26,6 +27,9 @@ dev = [
   'pylint',
   'commitizen',
 ]
+
+[project.scripts]
+render-cli = 'pixelpoint.render:main'
 
 [build-system]
 requires = [

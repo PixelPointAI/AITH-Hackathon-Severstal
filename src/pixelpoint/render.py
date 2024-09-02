@@ -1,3 +1,5 @@
+import argparse
+import subprocess
 import sys
 from pathlib import Path
 
@@ -113,18 +115,57 @@ def render_paired_images(
     bpy.ops.render.render(write_still=True)
 
 
-def main():
+def blender_render(
+    object_path: str,
+    output_dir: str,
+    distance_between_cameras: float,
+    distance_from_object: float,
+    num_pairs: int,
+):
     np.random.seed(42)
-    argv = sys.argv[sys.argv.index("--") + 1 :]
 
-    for i in range(10):  # TODO: hardcode, move to arguments
+    for i in range(num_pairs):
         render_paired_images(
-            object_path=Path(argv[0]),
-            output_dir=Path(argv[1]) / f"pair_{i}",
-            distance_between_cameras=float(argv[2]),
-            distance_from_object=float(argv[3]),
+            object_path=Path(object_path),
+            output_dir=Path(output_dir) / f"pair_{i}",
+            distance_between_cameras=distance_between_cameras,
+            distance_from_object=distance_from_object,
         )
 
 
+def main():
+    parser = argparse.ArgumentParser(description="Render paired images using Blender.")
+    parser.add_argument("--blender-path", type=str, required=True, help="Path to the Blender program.")
+    parser.add_argument("--object-path", type=str, required=True, help="Path to the .obj file.")
+    parser.add_argument("--output-dir", type=str, required=True, help="Directory to save the rendered images.")
+    parser.add_argument("--distance-between-cameras", type=float, default=5.0, help="Distance between the cameras.")
+    parser.add_argument("--distance-from-object", type=float, default=15.0, help="Distance from the object.")
+    parser.add_argument("--num-pairs", type=int, default=10, help="Number of image pairs to render.")
+    args = parser.parse_args()
+
+    # Call Blender with the specified script and arguments
+    blender_command = [
+        args.blender_path,
+        "--background",
+        "--python",
+        (Path(__file__).parent / "render.py").as_posix(),
+        "--",
+        args.object_path,
+        args.output_dir,
+        str(args.distance_between_cameras),
+        str(args.distance_from_object),
+        str(args.num_pairs),
+    ]
+    subprocess.run(blender_command, check=True)
+
+
 if __name__ == "__main__":
-    main()
+    argv = sys.argv[sys.argv.index("--") + 1 :]
+
+    blender_render(
+        object_path=argv[0],
+        output_dir=argv[1],
+        distance_between_cameras=float(argv[2]),
+        distance_from_object=float(argv[3]),
+        num_pairs=int(argv[4]),
+    )
