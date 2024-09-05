@@ -77,6 +77,8 @@ section_whitelines = 1
 
 [tool.pylint.format]
 max-line-length = 120
+max-args = 10
+
 
 [tool.pylint.messages_control]
 disable = [
