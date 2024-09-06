@@ -57,9 +57,10 @@ def render_paired_images(
     bpy.context.scene.render.resolution_percentage = 100
 
     # Render images and save
-    for i, camera_object in enumerate([camera1_object, camera2_object]):
+    image_sides = ["right", "left"]
+    for side, camera_object in zip(image_sides, [camera1_object, camera2_object]):
         bpy.context.scene.camera = camera_object
-        bpy.context.scene.render.filepath = (output_dir / f"image_{i}.png").as_posix()
+        bpy.context.scene.render.filepath = (output_dir / f"image_{side}.png").as_posix()
         bpy.ops.render.render(write_still=True)
 
 
@@ -73,7 +74,10 @@ def _setup_object(object_path: Path, object_scale: float):
     # Center the object and adjust scale
     obj = bpy.context.selected_objects[0]  # Assuming only one object is imported
     bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
-    obj.rotation_euler = np.deg2rad([90, 0, 0]).tolist()
+
+    random_rotation = np.random.randint(0, 60, size=3)
+    rotation = np.array([90, 0, 90]) + random_rotation
+    obj.rotation_euler = np.deg2rad(rotation).tolist()
     obj.location = (0, 0, 0)
     obj.scale = (np.array([1, 1, 1]) * object_scale).tolist()
 
