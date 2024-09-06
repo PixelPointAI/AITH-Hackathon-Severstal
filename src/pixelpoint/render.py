@@ -75,8 +75,8 @@ def _setup_object(object_path: Path, object_scale: float):
     obj = bpy.context.selected_objects[0]  # Assuming only one object is imported
     bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
 
-    random_rotation = np.random.randint(0, 60, size=3)
-    rotation = np.array([90, 0, 90]) + random_rotation
+    random_rotation = np.random.randint(0, 60)
+    rotation = np.array([90, 0, 90 + random_rotation])
     obj.rotation_euler = np.deg2rad(rotation).tolist()
     obj.location = (0, 0, 0)
     obj.scale = (np.array([1, 1, 1]) * object_scale).tolist()
