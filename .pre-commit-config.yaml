@@ -48,7 +48,7 @@ repos:
           - '{extends: relaxed, rules: {line-length: {max: 120}}}'
 
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.16.0
+    rev: 1.17.0
     hooks:
       - id: yamlfix
 
@@ -80,7 +80,7 @@ repos:
       - id: sphinx-lint
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.16.0
+    rev: v3.17.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
@@ -102,7 +102,7 @@ repos:
         additional_dependencies: [tomli]
 
   - repo: https://github.com/PyCQA/pylint
-    rev: v3.2.6
+    rev: v3.2.7
     hooks:
       - id: pylint
         language: system
