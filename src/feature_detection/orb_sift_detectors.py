@@ -1,13 +1,13 @@
 import cv2
 
 
-def extract_keypoints_and_descriptors(image_path_1, image_path_2, detector_type="ORB"):
+def extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB"):
     """
     Extracts keypoints and descriptors from two images.
 
     Args:
-        image_path_1 (str): Path to the first image (left image from stereo camera).
-        image_path_2 (str): Path to the second image (right image from stereo camera).
+        img_1_path (str): Path to the first image.
+        img_2_path (str): Path to the second image.
         detector_type (str): Feature detector to use ('ORB', 'SIFT'). Default is 'ORB'.
 
     Returns:
@@ -17,8 +17,8 @@ def extract_keypoints_and_descriptors(image_path_1, image_path_2, detector_type=
 
     """
 
-    img1 = cv2.imread(image_path_1, cv2.IMREAD_GRAYSCALE)
-    img2 = cv2.imread(image_path_2, cv2.IMREAD_GRAYSCALE)
+    img1 = cv2.imread(img_1_path, cv2.IMREAD_GRAYSCALE)
+    img2 = cv2.imread(img_2_path, cv2.IMREAD_GRAYSCALE)
 
     if img1 is None or img2 is None:
         raise FileNotFoundError("One or both image paths are invalid or images cannot be read.")
@@ -28,7 +28,7 @@ def extract_keypoints_and_descriptors(image_path_1, image_path_2, detector_type=
     elif detector_type == "SIFT":
         detector = cv2.SIFT_create()
     else:
-        raise ValueError(f"Unsupported detector type: {detector_type}. Use 'ORB', 'SIFT', or 'SURF'.")
+        raise ValueError(f"Unsupported detector type: {detector_type}. Use 'ORB' or 'SIFT'.")
 
     keypoints_1, descriptors_1 = detector.detectAndCompute(img1, None)
     keypoints_2, descriptors_2 = detector.detectAndCompute(img2, None)
